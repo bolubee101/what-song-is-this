@@ -14,7 +14,7 @@ npm start
 
 - via node in terminal
 ```sh
-node experimental-wasm-threads app.js
+node --experimental-wasm-threads src/app.js
 ```
 
 This bot makes use of the wasm ffmpeg package for converting between multimedia types. Running webassembly with threads on node js requires the `experimental-wasm-threads` flag when starting.
