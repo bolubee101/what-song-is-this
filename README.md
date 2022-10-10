@@ -6,6 +6,19 @@ Twitter bot to find what song is playing in a given uploaded twitter video.
 npm install
 ```
 
+### How to run.
+- via npm script
+```sh
+npm start
+```
+
+- via node in terminal
+```sh
+node experimental-wasm-threads app.js
+```
+
+This bot makes use of the wasm ffmpeg package for converting between multimedia types. Running webassembly with threads on node js requires the `experimental-wasm-threads` flag when starting.
+
 ### How it works
 - A twitter user would tag the bot under a video with @whatsongishere
 - The bot running in a loop(cron job) would listen for its mentions. 
