@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node experimental-wasm-threads src/app.js"
+    "start": "node --experimental-wasm-threads src/app.js"
   },
   "author": "",
   "license": "ISC",
