@@ -1,0 +1,31 @@
+{
+  "name": "shazam-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@ffmpeg/core": "^0.11.0",
+    "@ffmpeg/ffmpeg": "^0.11.5",
+    "axios": "^0.27.2",
+    "dotenv": "^16.0.3",
+    "get-audio-duration": "^3.1.0",
+    "moment": "^2.29.4",
+    "mongoose": "^6.6.5",
+    "p-queue": "^7.3.0",
+    "twit": "^2.2.11",
+    "web-audio-api": "^0.2.2"
+  },
+  "type": "module",
+  "devDependencies": {
+    "eslint": "^8.24.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.3.0",
+    "eslint-plugin-promise": "^6.0.1"
+  }
+}
