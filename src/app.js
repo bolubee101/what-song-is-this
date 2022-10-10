@@ -40,7 +40,7 @@ mongoose.connect(process.env.MONGO_URI, {
       const song = await getSong(tweet)
       if (song) {
         const response = generateReplyToVideoTag(song, mentions[i].user.screen_name);
-        await hands.replyTweet(mentions[i].id_str, response);
+        await hands.replyTweet(response, mentions[i].id_str);
         await saveMention({
           tweet_id: mentions[i].id_str,
           tweet_text: mentions[i].full_text,
@@ -107,6 +107,10 @@ mongoose.connect(process.env.MONGO_URI, {
             }
           });
         });
+
+        stream.on('error', (error) => {
+          console.log(error.message);
+        })
       } else {
         const text = `My lord @${mentions[i].user.screen_name} I can't find a video in that tweet`;
         await hands.replyTweet(text, mentions[i].id_str);

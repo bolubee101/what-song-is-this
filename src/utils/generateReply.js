@@ -1,7 +1,7 @@
 // function that takes in an song object and a username and returns a reply string
 
 export const generateReplyToVideoTag = (song, username, new_match = false) => {
-    if (!song?.song_name) {
+    if (!song?.song_name && !song?.track?.title) {
         return `I have failed you @${username}, for I could not find the song in this video.`;
     }
     const song_name = !new_match ? song.song_name : song.track.title;
