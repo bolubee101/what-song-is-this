@@ -30,4 +30,7 @@ This bot makes use of the wasm ffmpeg package for converting between multimedia 
 ![whatsongishere-in-action](https://user-images.githubusercontent.com/32003376/194798089-b033de58-4885-4ca8-ae8d-132ce02e100a.jpeg)
 
 
+### Currently receiving contributions for Hacktoberfest. PRs are not limited to the issues created.
+
+
 
