@@ -2,7 +2,7 @@ name: pull-request-action
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
@@ -14,4 +14,3 @@ jobs:
           node-version: 16
       - run: npm install
       - run: npm test
-      
