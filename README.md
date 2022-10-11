@@ -19,6 +19,13 @@ node --experimental-wasm-threads src/app.js
 
 This bot makes use of the wasm ffmpeg package for converting between multimedia types. Running webassembly with threads on node js requires the `experimental-wasm-threads` flag when starting.
 
+### Testing
+```sh
+npm test
+```
+
+> Test files should be created with '.test.js' prefix.
+
 ### How it works
 - A twitter user would tag the bot under a video with @[whatsongishere](https://twitter.com/whatsongishere)
 - The bot running in a loop(cron job) would listen for its mentions. 
