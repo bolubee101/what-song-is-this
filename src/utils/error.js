@@ -1,2 +1,2 @@
 // implement an error logger.
-import fs from 'fs';
+import fs from "fs";

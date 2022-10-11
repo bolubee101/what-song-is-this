@@ -1,10 +1,10 @@
-import Twit from 'twit';
-import { twitConfig } from '../config/twitConfig.js';
+import Twit from "twit";
+import { twitConfig } from "../config/twitConfig.js";
 const T = new Twit(twitConfig);
 
 class Tweet {
   constructor() {
-    this.tweet = 'Hello World';
+    this.tweet = "Hello World";
   }
 
   /**
@@ -15,9 +15,9 @@ class Tweet {
   async getTweet(id) {
     return new Promise(async (resolve, reject) => {
       try {
-        const tweet = await T.get('statuses/show', {
+        const tweet = await T.get("statuses/show", {
           id,
-          tweet_mode: 'extended',
+          tweet_mode: "extended",
         });
         const video_url = tweet.data.extended_entities
           ? tweet.data.extended_entities.media[0].video_info.variants[0].url
@@ -37,7 +37,7 @@ class Tweet {
   async postTweet(text) {
     return new Promise(async (resolve, reject) => {
       try {
-        const tweet = await T.post('statuses/update', { status: text });
+        const tweet = await T.post("statuses/update", { status: text });
         return resolve(tweet.data);
       } catch (error) {
         reject(error);
@@ -54,7 +54,7 @@ class Tweet {
   async replyTweet(text, id) {
     return new Promise(async (resolve, reject) => {
       try {
-        const tweet = await T.post('statuses/update', {
+        const tweet = await T.post("statuses/update", {
           status: text,
           in_reply_to_status_id: id,
         });
@@ -73,12 +73,12 @@ class Tweet {
   async getMentions() {
     return new Promise(async (resolve, reject) => {
       try {
-        const tweets = await T.get('statuses/mentions_timeline', {
+        const tweets = await T.get("statuses/mentions_timeline", {
           count: 5,
-          tweet_mode: 'extended',
+          tweet_mode: "extended",
         });
         const mentions = tweets.data.filter(
-          (tweet) => tweet.in_reply_to_status_id_str,
+          (tweet) => tweet.in_reply_to_status_id_str
         );
         return resolve(mentions);
       } catch (error) {
