@@ -5,7 +5,7 @@ Twitter bot to find what song is playing in a given uploaded twitter video.
 ### How to setup.
 
 ```sh
-npm install
+yarn install
 ```
 
 ### How to run.
@@ -13,7 +13,7 @@ npm install
 - via npm script
 
 ```sh
-npm start
+yarn start
 ```
 
 - via node in terminal
@@ -27,7 +27,7 @@ This bot makes use of the wasm ffmpeg package for converting between multimedia 
 ### Testing
 
 ```sh
-npm test
+yarn test
 ```
 
 > Test files should be created with '.test.js' prefix.
