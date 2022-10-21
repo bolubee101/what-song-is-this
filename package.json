@@ -42,5 +42,8 @@
   },
   "lint-staged": {
     "*.{js,css,md}": "prettier --write"
+  },
+  "engines": {
+    "node": "<=16.17.0"
   }
 }
