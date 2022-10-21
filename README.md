@@ -38,7 +38,7 @@ yarn test
 - The bot running in a loop(cron job) would listen for its mentions.
 - For any mention found, it checks firstly for if it has attended to this mention before. If it has, it ignores the mention
 - If it hasn't attended to this mention before, it checks the DB if it has been mentioned on that song before. If it has, it uses the same response from before.
-- If it hasn't been mentioned to the video before, it converts the video to the required format and makes a request to the shazam API to recognize it.
+- If it hasn't been mentioned to the video before, it converts the video to the required format and makes a request to the [Rapi API's shazam API](https://rapidapi.com/apidojo/api/shazam) to recognize it.
 - Depending on the response from shazam(or whatever service integrated) it replies the at with the relevant reply.
 
 ![whatsongishere-in-action](https://user-images.githubusercontent.com/32003376/194798089-b033de58-4885-4ca8-ae8d-132ce02e100a.jpeg)
