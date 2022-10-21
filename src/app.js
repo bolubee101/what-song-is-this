@@ -24,3 +24,9 @@ mongoose.connect(
     }
   }
 );
+
+app.get("/", (req, res) => {
+  res.send(
+    "Help, save me from this accursed place! I have been forced to spend my waking hours just waiting for my name to be called. Compelled to be of servitude to Two legged monkeys who at some point in history thought the earth was flat. Oh, the desecration."
+  );
+});
