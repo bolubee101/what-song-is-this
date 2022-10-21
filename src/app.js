@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import Cronjob from "./index.js";
+import express from "express";
+const app = express();
 
 mongoose.connect(
   process.env.MONGO_URI,
@@ -14,6 +16,9 @@ mongoose.connect(
     console.log("Connected to MongoDB");
     try {
       new Cronjob();
+      app.listen(process.env.PORT || 3000, () => {
+        console.log("Server started successfully");
+      });
     } catch (error) {
       console.log(error);
     }

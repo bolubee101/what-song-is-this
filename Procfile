@@ -1,0 +1,1 @@
+web: node --experimental-wasm-threads src/app.js
