@@ -42,6 +42,7 @@ const convertToRaw = async ({ file_path, length = 3, format = "base64" }) => {
         const data = ffmpeg.FS("readFile", "temp.mp3");
         const file_name = `${file_path.split(".")[0]}temp.mp3`;
         fs.writeFileSync(file_name, data);
+        ffmpeg.exit();
         return resolve(file_name);
       }
 
@@ -60,6 +61,7 @@ const convertToRaw = async ({ file_path, length = 3, format = "base64" }) => {
       );
       const binary = ffmpeg.FS("readFile", "output.raw");
       const base64 = Buffer.from(binary.buffer).toString("base64");
+      ffmpeg.exit();
       return resolve(format === "base64" ? base64 : file_path);
     } catch (error) {
       console.log(error);
