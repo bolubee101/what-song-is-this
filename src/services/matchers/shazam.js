@@ -1,7 +1,7 @@
 // send the base64 data to the shazam api
 import axios from "axios";
 import convertToRaw from "../converters/rawConverter.js";
-import { saveSong } from "../models.js/songs.js";
+import { saveSong } from "../../models.js/songs.js";
 
 export const parseShazamResponse = async (song, in_reply_to_status_id_str) => {
   try {
