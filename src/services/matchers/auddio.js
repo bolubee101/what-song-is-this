@@ -2,7 +2,7 @@ import axios from "axios";
 import convertToRaw from "../converters/rawConverter.js";
 import FormData from "form-data";
 import fs from "fs";
-import { saveSong } from "../models.js/songs.js";
+import { saveSong } from "../../models.js/songs.js";
 
 const parseAuddioResponse = async (song, in_reply_to_status_id_str) => {
   try {

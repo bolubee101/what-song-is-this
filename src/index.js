@@ -6,9 +6,9 @@ import { getMention, getMentions, saveMention } from "./models.js/mentions.js";
 import { getSong } from "./models.js/songs.js";
 import { generateReplyToVideoTag } from "./utils/generateReply.js";
 import Tweet from "./utils/twitter.js";
-import shazamRequest from "./matchers/shazam.js";
-import auddio from "./matchers/auddio.js";
-const hands = new Tweet();
+import shazamRequest from "./services/matchers/shazam.js";
+import auddio from "./services/matchers/auddio.js";
+export const hands = new Tweet();
 
 const replyHelper = async (song, mention) => {
   try {
