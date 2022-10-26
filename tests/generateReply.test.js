@@ -1,4 +1,4 @@
-import { generateReplyToVideoTag } from "./generateReply";
+import { generateReplyToVideoTag } from "../src/utils/generateReply";
 
 describe("test cases for generateReplyToVideoTag function", () => {
   it("should be defined", () => {
