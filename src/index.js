@@ -3,17 +3,32 @@ import PQueue from "p-queue";
 import fs from "fs";
 import request from "request";
 import { getMention, getMentions, saveMention } from "./models.js/mentions.js";
-import { getSong, saveSong } from "./models.js/songs.js";
+import { getSong } from "./models.js/songs.js";
 import { generateReplyToVideoTag } from "./utils/generateReply.js";
 import Tweet from "./utils/twitter.js";
-import shazamRequest from "./matchers/shazam.js";
+import shazamRequest from "./services/matchers/shazam.js";
+import auddio from "./services/matchers/auddio.js";
+export const hands = new Tweet();
 
-// create a cron class that would be exported for any times functionality
+const replyHelper = async (song, mention) => {
+  try {
+    const text = generateReplyToVideoTag(song, mention.user.screen_name);
+    await hands.replyTweet(text, mention.id_str);
+    await saveMention({
+      tweet_id: mention.id_str,
+      tweet_text: mention.full_text,
+      tweet_user: mention.user.screen_name,
+      in_reply_to_status_id_str: mention.in_reply_to_status_id_str,
+      ...song,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const replyMentions = async () => {
   try {
     const queue = new PQueue({ concurrency: 1 });
-
-    const hands = new Tweet();
 
     const mentions = await hands.getMentions();
     const mention_ids = mentions.map((mention) => mention.id_str);
@@ -35,20 +50,7 @@ const replyMentions = async () => {
         const tweet = mentions[i].in_reply_to_status_id_str;
         const song = await getSong(tweet);
         if (song) {
-          const response = generateReplyToVideoTag(
-            song,
-            mentions[i].user.screen_name
-          );
-          await hands.replyTweet(response, mentions[i].id_str);
-          await saveMention({
-            tweet_id: mentions[i].id_str,
-            tweet_text: mentions[i].full_text,
-            tweet_user: mentions[i].user.screen_name,
-            in_reply_to_status_id_str: mentions[i].in_reply_to_status_id_str,
-            song_name: song.song_name,
-            song_artist: song.song_artist,
-            song_url: song.song_url,
-          });
+          await replyHelper(song, mentions[i]);
           continue;
         }
         const tweet_data = await hands.getTweet(tweet);
@@ -60,54 +62,21 @@ const replyMentions = async () => {
           stream.on("finish", async () => {
             queue.add(async () => {
               console.log("Processing...", file_name);
+              let song;
               try {
-                const song = await shazamRequest(file_name);
-                if (song?.matches?.length) {
-                  const song_url = song.track.url;
-                  const sections = song.track.sections;
-                  const video_url_match = sections.find(
-                    (section) => section.type === "VIDEO"
-                  )?.youtubeurl?.actions[0]?.uri;
-                  const text = generateReplyToVideoTag(
-                    song,
-                    mentions[i].user.screen_name,
-                    true
-                  );
-                  await hands.replyTweet(text, mentions[i].id_str);
-                  await saveMention({
-                    tweet_id: mentions[i].id_str,
-                    tweet_text: mentions[i].full_text,
-                    tweet_user: mentions[i].user.screen_name,
-                    in_reply_to_status_id_str:
-                      mentions[i].in_reply_to_status_id_str,
-                    song_name: song.track.title,
-                    song_artist: song.track.subtitle,
-                    song_url: video_url_match || song_url,
-                  });
-                  await saveSong({
-                    in_reply_to_status_id_str: tweet_data.tweet.id_str,
-                    song_name: song.track.title,
-                    song_artist: song.track.subtitle,
-                    song_url: video_url_match || song_url,
-                    match_payload: song,
-                  });
+                song = await shazamRequest(file_name, tweet);
+                if (song) {
+                  await replyHelper(song, mentions[i]);
                 } else {
-                  const text = generateReplyToVideoTag(
-                    null,
-                    mentions[i].user.screen_name,
-                    false
-                  );
-                  await hands.replyTweet(text, mentions[i].id_str);
-                  await saveMention({
-                    tweet_id: mentions[i].id_str,
-                    tweet_text: mentions[i].full_text,
-                    tweet_user: mentions[i].user.screen_name,
-                    in_reply_to_status_id_str:
-                      mentions[i].in_reply_to_status_id_str,
-                    song_name: null,
-                    song_artist: null,
-                    song_url: null,
-                  });
+                  song = await auddio(file_name, tweet);
+                  if (song) {
+                    await replyHelper(song, mentions[i]);
+                  } else {
+                    await replyHelper(
+                      { song_name: null, song_artist: null, song_url: null },
+                      mentions[i]
+                    );
+                  }
                 }
                 fs.unlinkSync(file_name);
               } catch (error) {

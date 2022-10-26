@@ -26,6 +26,10 @@ const songSchema = new mongoose.Schema({
     required: true,
     unique: false,
   },
+  source: {
+    type: String,
+    required: true,
+  },
 });
 
 const Song = mongoose.model("song", songSchema);
