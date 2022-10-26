@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node --experimental-wasm-threads src/app.js",
     "prepare": "husky install",
-    "test": "jest tests/*.test.js"
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -27,6 +27,9 @@
   },
   "type": "module",
   "devDependencies": {
+    "@babel/core": "^7.19.6",
+    "@babel/preset-env": "^7.19.4",
+    "babel-jest": "^29.2.2",
     "eslint": "^8.24.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.26.0",
