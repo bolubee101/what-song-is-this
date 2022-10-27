@@ -19,9 +19,12 @@ class Tweet {
           id,
           tweet_mode: "extended",
         });
-        const video_url = tweet.data.extended_entities
-          ? tweet.data.extended_entities.media[0].video_info.variants[0].url
-          : null;
+        let variants = tweet?.data?.extended_entities?.media
+          ?.at(0)
+          ?.video_info?.variants.filter(
+            (variant) => variant.content_type === "video/mp4"
+          );
+        const video_url = variants?.at(0)?.url || null;
         return resolve({ tweet: tweet.data, video_url });
       } catch (error) {
         reject(error);
