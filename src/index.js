@@ -12,7 +12,7 @@ export const hands = new Tweet();
 
 const replyHelper = async (song, mention) => {
   try {
-    const text = generateReplyToVideoTag(song, mention.user.screen_name);
+    const text = await generateReplyToVideoTag(song, mention.user.screen_name);
     await hands.replyTweet(text, mention.id_str);
     await saveMention({
       tweet_id: mention.id_str,

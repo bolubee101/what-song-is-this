@@ -2,7 +2,7 @@
 
 import { generateText } from "./gpt3.js";
 
-export const generateReplyToVideoTag = (song, username) => {
+export const generateReplyToVideoTag = async (song, username) => {
   if (!song?.song_name && !song?.track?.title) {
     return `I have failed you @${username}, for I could not find the song in this video.`;
   }
@@ -16,6 +16,6 @@ export const generateReplyToVideoTag = (song, username) => {
 
   // return `My lord @${username} I think this song is "${song_name}" by "${song_artist}" You can check out the song here:
   //   ${song_url}`;
-  let response = generateText(prompt);
+  let response = await generateText(prompt);
   return response;
 };
