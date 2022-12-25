@@ -1,8 +1,10 @@
 import axios from "axios";
+import dotenv from "dotenv";
+dotenv.config();
 const apiKey = process.env.OPENAI_TOKEN;
 const GPT3_API_URL = "https://api.openai.com/v1/completions";
 
-export async function generateText(prompt, model = "text-babbage-001") {
+export async function generateText(prompt, model = "text-davinci-003") {
   const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${apiKey}`,
@@ -12,10 +14,11 @@ export async function generateText(prompt, model = "text-babbage-001") {
     model,
     prompt: prompt,
     temperature: 0.5,
-    max_tokens: 2048,
+    max_tokens: 1500,
     top_p: 1,
   };
 
   const response = await axios.post(GPT3_API_URL, data, { headers: headers });
-  return response.data.choices[0].text;
+  const choices = response.data.choices;
+  return choices[0].text;
 }
