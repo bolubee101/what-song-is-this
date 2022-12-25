@@ -21,6 +21,7 @@
     "moment": "^2.29.4",
     "mongoose": "^6.6.5",
     "node-cron": "^3.0.2",
+    "openai": "^3.1.0",
     "p-queue": "^7.3.0",
     "twit": "^2.2.11",
     "web-audio-api": "^0.2.2"
