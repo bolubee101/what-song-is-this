@@ -1,7 +1,9 @@
 import openai from "openai";
 
 export async function generateText(prompt) {
-  openai.apiKey = process.env.OPENAPI_TOKEN;
+  openai.init({
+    apiKey: process.env.OPENAPI_TOKEN,
+  });
 
   const response = await openai.completion.create({
     engine: "davinci",
