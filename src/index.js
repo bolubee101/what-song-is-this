@@ -120,7 +120,7 @@ const tweetSomethingMusical = async () => {
 class Cronjob {
   constructor() {
     cron.schedule("*/1 * * * *", replyMentions);
-    cron.schedule("39 17 * * *", tweetSomethingMusical);
+    cron.schedule("44 17 * * *", tweetSomethingMusical);
   }
 }
 export default Cronjob;
