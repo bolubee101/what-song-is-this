@@ -12,7 +12,7 @@ import { generateText } from "./utils/gpt3.js";
 export const hands = new Tweet();
 
 const generate_deep_tweet_prompt = `You are a music finding bot. Tweet something beautiful/deep about music. Add #music tag`;
-const quote_deep_tweet_lyrics_prompt = `Make a tweet quoting a lyric snippet from a real song that would be considered deep/moving/beautiful. Mention the title of the song, and the artist. If you know the artists twitter handle, tag them. Add #music tag`;
+const quote_deep_tweet_lyrics_prompt = `Make a tweet quoting a lyric snippet from a real song that would be considered deep/moving/beautiful. Mention the title of the song, and the artist. If you know the artists twitter handle, tag them. Add the youtube music link. Add #music tag`;
 const replyHelper = async (song, mention) => {
   try {
     const text = await generateReplyToVideoTag(song, mention.user.screen_name);
