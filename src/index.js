@@ -12,7 +12,7 @@ import { generateText } from "./utils/gpt3.js";
 export const hands = new Tweet();
 
 const generate_deep_tweet_prompt = `You are an intellectual and philosophical music finding bot. Tweet something beautiful/deep about music. Add tags`;
-const quote_deep_tweet_lyrics_prompt = `Make a tweet, quote a lyric snippet from a song that would be considered deep/moving/beautiful. Mention the title of the song, and the artist. If you know the artists twitter handle, tag them. Add tags`;
+const quote_deep_tweet_lyrics_prompt = `Make a tweet, quote a lyric snippet from a song that would be considered deep/moving/beautiful. Mention the title of the song, and the artist. If you know the artists twitter handle, tag them. Add twitter tags`;
 const replyHelper = async (song, mention) => {
   try {
     const text = await generateReplyToVideoTag(song, mention.user.screen_name);
@@ -121,12 +121,12 @@ const tweetSomethingMusical = async (prompt) => {
 class Cronjob {
   constructor() {
     cron.schedule("*/1 * * * *", replyMentions);
+    // cron.schedule(
+    //   "0 20-23/8 * * *",
+    //   tweetSomethingMusical(generate_deep_tweet_prompt)
+    // );
     cron.schedule(
-      "0 20-23/8 * * *",
-      tweetSomethingMusical(generate_deep_tweet_prompt)
-    );
-    cron.schedule(
-      "0 18,6 * * *",
+      "5 18,6 * * *",
       tweetSomethingMusical(quote_deep_tweet_lyrics_prompt)
     );
   }
