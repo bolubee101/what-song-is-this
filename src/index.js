@@ -121,14 +121,15 @@ const tweetSomethingMusical = async (prompt) => {
 class Cronjob {
   constructor() {
     cron.schedule("*/1 * * * *", replyMentions);
-    cron.schedule(
-      "17 18,6 * * *",
-      tweetSomethingMusical(quote_deep_tweet_lyrics_prompt)
-    );
   }
 }
 export default Cronjob;
 // cron.schedule(
 //   "0 20-23/8 * * *",
 //   tweetSomethingMusical(generate_deep_tweet_prompt)
+// );
+
+// cron.schedule(
+//   "17 18,6 * * *",
+//   tweetSomethingMusical(quote_deep_tweet_lyrics_prompt)
 // );
