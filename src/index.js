@@ -8,6 +8,7 @@ import { generateReplyToVideoTag } from "./utils/generateReply.js";
 import Tweet from "./utils/twitter.js";
 import shazamRequest from "./services/matchers/shazam.js";
 import auddio from "./services/matchers/auddio.js";
+import { generateText } from "./utils/gpt3.js";
 export const hands = new Tweet();
 
 const replyHelper = async (song, mention) => {
@@ -107,9 +108,19 @@ const replyMentions = async () => {
     console.log(error.message);
   }
 };
+const tweetSomethingMusical = async () => {
+  try {
+    const prompt = `You are an intellectual and philosophical music finding bot. Tweet something beautiful/deep about music.`;
+    const tweet = await generateText(prompt);
+    await hands.postTweet(tweet);
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 class Cronjob {
   constructor() {
     cron.schedule("*/1 * * * *", replyMentions);
+    cron.schedule("36 18 * * *", tweetSomethingMusical);
   }
 }
 export default Cronjob;
