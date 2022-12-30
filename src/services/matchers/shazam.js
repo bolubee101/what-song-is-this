@@ -80,7 +80,12 @@ export const shazamSearch = async (
         },
       };
       const resp = await axios.request(options);
-      const result = await parseShazamResponse(resp.data.tracks.hits[0]);
+      let result = "";
+
+      if (resp?.data?.tracks?.hits[0]) {
+        result = await parseShazamResponse(resp.data.tracks.hits[0]);
+      }
+
       return resolve(result);
     } catch (error) {
       return reject(error);
