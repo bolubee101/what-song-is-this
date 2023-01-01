@@ -3,11 +3,14 @@ import axios from "axios";
 import convertToRaw from "../converters/rawConverter.js";
 import { saveSong } from "../../models.js/songs.js";
 
-export const parseShazamResponse = async (song, in_reply_to_status_id_str) => {
+export const parseShazamResponse = async (
+  song,
+  in_reply_to_status_id_str = null
+) => {
   try {
-    if (song?.matches?.length) {
+    if (song?.matches?.length || song.track) {
       const sections = song.track.sections;
-      const video_url_match = sections.find(
+      const video_url_match = sections?.find(
         (section) => section.type === "VIDEO"
       )?.youtubeurl?.actions[0]?.uri;
 
@@ -17,12 +20,15 @@ export const parseShazamResponse = async (song, in_reply_to_status_id_str) => {
         song_url: video_url_match || song.track.url,
       };
 
-      await saveSong({
-        in_reply_to_status_id_str,
-        match_payload: song,
-        source: "shazam",
-        ...formatted,
-      });
+      if (in_reply_to_status_id_str) {
+        await saveSong({
+          in_reply_to_status_id_str,
+          match_payload: song,
+          source: "shazam",
+          ...formatted,
+        });
+      }
+
       return formatted;
     }
     return null;
@@ -50,6 +56,37 @@ const shazamRequest = async (file_path, in_reply_to_status_id_str) => {
         in_reply_to_status_id_str
       );
       return resolve(response);
+    } catch (error) {
+      return reject(error);
+    }
+  });
+};
+
+export const shazamSearch = async (
+  term,
+  locale = "en-US",
+  offset = "0",
+  limit = "1"
+) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const options = {
+        method: "GET",
+        url: "https://shazam.p.rapidapi.com/search",
+        params: { term: term, locale: locale, offset: offset, limit: limit },
+        headers: {
+          "X-RapidAPI-Key": process.env.RAPID_API_KEY,
+          "X-RapidAPI-Host": "shazam.p.rapidapi.com",
+        },
+      };
+      const resp = await axios.request(options);
+      let result = "";
+
+      if (resp?.data?.tracks?.hits[0]) {
+        result = await parseShazamResponse(resp.data.tracks.hits[0]);
+      }
+
+      return resolve(result);
     } catch (error) {
       return reject(error);
     }
