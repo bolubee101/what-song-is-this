@@ -9,16 +9,11 @@ import Tweet from "./utils/twitter.js";
 import shazamRequest, { shazamSearch } from "./services/matchers/shazam.js";
 import auddio from "./services/matchers/auddio.js";
 import { generateText } from "./utils/gpt3.js";
+import { fetchRandomSong } from "./models.js/songLyrics.js";
+import { findLyrics } from "./services/lyrics/genius.js";
 export const hands = new Tweet();
 
-const generate_deep_tweet_prompt = `You are a music finding bot. Tweet something beautiful/deep about music. Add #music tag`;
-const quote_deep_tweet_lyrics_prompt = `Do not create lyrics on your own. Generate a tweet quoting a lyric snippet from an actual song(doesn't have to be english and could be from a cartoon or anime) that would be considered sad/deep/moving/beautiful/joyful. Your response should be itemized in this form
-quote
-title: title of song
-artist: artist name
-twitter: twitter handle
-with title on a new line, artist on a new line, twitter handle on a new line. Include tags with the genre of the song, and tags that can be related to the content and theme of the lyrics plus #music
-`;
+// const generate_deep_tweet_prompt = `You are a music finding bot. Tweet something beautiful/deep about music. Add #music tag`;
 const replyHelper = async (song, mention) => {
   try {
     const text = await generateReplyToVideoTag(song, mention.user.screen_name);
@@ -148,8 +143,17 @@ const tweetSomethingMusical = async (prompt, lyrics = false) => {
 class Cronjob {
   constructor() {
     cron.schedule("*/1 * * * *", replyMentions);
-    cron.schedule("0 18,6 * * *", () => {
-      tweetSomethingMusical(quote_deep_tweet_lyrics_prompt, true);
+    cron.schedule("0 18,6 * * *", async () => {
+      const song = await fetchRandomSong();
+      const lyrics = await findLyrics(`${song.track_name} ${song.artist_name}`);
+      const quote_deep_tweet_lyrics_prompt = `Given the song "${song.track_name}", by "${song.artist_name}" and lyrics "${lyrics}", snip out a part that could be considered beautiful, deep, or sad. Your response should be itemized in this form
+quote
+title: Title
+artist: artist name
+twitter: twitter handle
+with title on a new line, artist on a new line, twitter handle on a new line. Include tags with the genre of the song, and tags that can be related to the content and theme of the lyrics plus #music
+`;
+      tweetSomethingMusical(quote_deep_tweet_lyrics_prompt, song);
     });
   }
 }
