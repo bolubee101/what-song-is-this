@@ -4,7 +4,7 @@ services:
   - type: web # A Python web service named django-app running on a free instance
     plan: free
     name: twitterbot
-    runtime: nodejs
+    runtime: node
     repo: https://github.com/bolubee101/what-song-is-this
     startCommand: "node --experimental-wasm-threads src/app.js"
 
