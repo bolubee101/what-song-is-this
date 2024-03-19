@@ -1,0 +1,13 @@
+# This is a basic example blueprint for a Django web service and
+# the PostgreSQL database it connects to.
+services:
+  - type: web # A Python web service named django-app running on a free instance
+    plan: free
+    name: twitterbot
+    runtime: nodejs
+    repo: https://github.com/bolubee101/what-song-is-this
+    startCommand: "node --experimental-wasm-threads src/app.js"
+
+databases:
+  - name: test-app-db # A PostgreSQL database named django-app-db running on a free instance
+    plan: free
